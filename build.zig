@@ -48,6 +48,7 @@ pub fn build(b: *std.Build) void {
     });
 
     // postgres with OpenSSL
+    // this path needs to be fixed to be general
     exe.addLibraryPath(.{ .cwd_relative = "/opt/homebrew/opt/openssl@3/lib" });
 
     const pg = b.dependency("pg", .{

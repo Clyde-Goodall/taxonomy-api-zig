@@ -14,6 +14,10 @@ pub fn main() !void {
         std.log.err("PG_CONNECTION_STRING environment variable not set", .{});
         return error.MissingEnvironmentVariable;
     };
-    var db = try database.Connection.init(allocator, pg_connection_string);
+    const port = try std.fmt.parseInt(u16, env.get("PORT") orelse "3000", 10);
+
+    var db = try database.buildPool(allocator, pg_connection_string);
     defer db.deinit();
+
+    try router.start(allocator, db, port);
 }
